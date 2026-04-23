@@ -1,0 +1,7 @@
+interface:
+  display_name: "Learning Project Tutor"
+  short_description: "State-driven source learning for lessons and diagnosis"
+  default_prompt: "Use $learning-project-tutor to turn my source material into a state-driven learning workspace with lesson, response, diagnosis, and final transfer steps."
+
+policy:
+  allow_implicit_invocation: true
