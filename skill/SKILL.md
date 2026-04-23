@@ -1,6 +1,6 @@
 ---
 name: learning-project-tutor
-description: Use when the user wants adaptive 1v1 tutoring from source material: focused lessons, learner response files, diagnosis-driven course adjustment, bridge or reframe lessons, and final transfer checks. Especially useful when the next lesson should depend on demonstrated understanding rather than a fixed syllabus.
+description: "Use when the user wants adaptive 1v1 tutoring from source material: focused lessons, learner response files, diagnosis-driven course adjustment, bridge or reframe lessons, and final transfer checks. Especially useful when the next lesson should depend on demonstrated understanding rather than a fixed syllabus."
 ---
 
 # Learning Project Tutor

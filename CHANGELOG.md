@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.2 - 2026-04-23
+- quoted `skill/SKILL.md` description frontmatter so YAML parsers accept descriptions containing colons
+
 ## 0.2.1 - 2026-04-23
 - revised public documentation to describe the current package structure and workspace model
 - aligned skill, starter workspace, scaffolded README, demo README, and adapter wording
