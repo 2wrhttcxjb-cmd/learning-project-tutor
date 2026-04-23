@@ -4,17 +4,20 @@ A state-driven 1:1 tutoring system that turns source material into adaptive less
 
 一个可分发的学习工作流仓库，包含两部分：
 
-- `skill/`: 可安装到 Codex skills 目录的 `learning-project-tutor` skill
+- `skill/`: 可安装到 Codex skills 目录的 `learning-project-tutor` skill，也包含多平台 workspace adapter
 - `starter-workspace/`: 可直接复制给别人的最小学习工程模板
 
 ## What this repo is for
 - 把 source 驱动的 lesson -> response -> diagnosis 工作流打包成可复用 skill
 - 给新用户一份开箱即用的 starter workspace
 - 支持后续做 zip release 或单独拆成两个交付包
+- 支持为 Codex、Claude Code、Cursor 和通用 agent 生成对应规则文件
 
 ## Repo layout
 - `skill/`
-  Codex skill 本体，包含 `SKILL.md`、`agents/openai.yaml`、脚本、模板和参考规则
+  Skill 本体，包含 `SKILL.md`、`agents/openai.yaml`、脚本、模板、参考规则和 `adapters/`
+- `skill/adapters/`
+  平台规则模板，目前支持 `codex`、`claude-code`、`cursor`、`generic`
 - `starter-workspace/`
   展开后的工作区模板，包含 `AGENTS.md`、`templates/learning/`、`tools/`、`memory/` 和 demo topics
 - `scripts/release.sh`
@@ -36,8 +39,14 @@ A state-driven 1:1 tutoring system that turns source material into adaptive less
 然后初始化一个工作区：
 
 ```bash
-python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic
+python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform codex
 ```
+
+可选平台：
+- `codex`: 生成 `AGENTS.md`
+- `claude-code`: 生成 `CLAUDE.md`
+- `cursor`: 生成 `.cursor/rules/learning-project-tutor.mdc`
+- `generic`: 生成 `PROJECT_INSTRUCTIONS.md`
 
 ### Option 2: copy the starter workspace
 直接复制 `starter-workspace/` 到目标目录，然后开始填 `topics/<topic>/00-source.md`。
@@ -46,7 +55,7 @@ python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspa
 
 ### Create a fresh workspace from the skill
 ```bash
-python3 skill/scripts/scaffold_learning_workspace.py /path/to/workspace --topic my-topic
+python3 skill/scripts/scaffold_learning_workspace.py /path/to/workspace --topic my-topic --platform codex
 ```
 
 ### Add a new topic inside an existing workspace
@@ -63,9 +72,6 @@ bash scripts/release.sh dist
 发布脚本默认产出两份 zip：
 - `learning-project-tutor-<version>.zip`
 - `learning-project-starter-workspace-<version>.zip`
-
-## License
-MIT. See `LICENSE`.
 
 ## Suggested first-run demo
 如果想快速看这套 workflow 怎么工作，先打开：

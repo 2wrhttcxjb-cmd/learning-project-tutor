@@ -30,6 +30,7 @@ This skill is the distributable entrypoint for the learning project. It should b
 When the user asks to set up a new learning workspace, create or maintain this structure:
 
 - `AGENTS.md`
+- or a platform-specific rule file such as `CLAUDE.md`, `.cursor/rules/learning-project-tutor.mdc`, or `PROJECT_INSTRUCTIONS.md`
 - `SOURCE_TYPE_COURSE_PLANNING.md`
 - `memory/`
 - `templates/learning/`
@@ -49,7 +50,7 @@ For a concrete layout and file intent, read [references/workspace-layout.md](ref
 ## Default Learning Cycle
 For a topic that already has source material:
 
-1. Read `AGENTS.md`.
+1. Read the platform rule file for the workspace, such as `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/learning-project-tutor.mdc`, or `PROJECT_INSTRUCTIONS.md`.
 2. Read `topics/<topic>/topic_state.yaml`.
 3. Validate that the files required by the current status exist.
 4. Do the one next action allowed by that status.
@@ -108,6 +109,7 @@ When adapting this skill for another user or vault:
 - reusable templates live in `templates/learning/`
 - reusable helper scripts live in `scripts/`
 - stable workflow references live in `references/`
+- platform adapter templates live in `adapters/`
 - UI metadata lives in `agents/openai.yaml`
 
 Read these short references first:
@@ -123,6 +125,15 @@ python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my
 ```
 
 That scaffold creates the root learning workspace, memory baselines, one example topic, and copies the reusable templates and helper scripts into the target directory.
+
+To generate platform-specific agent rules, pass `--platform`:
+
+```bash
+python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform codex
+python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform claude-code
+python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform cursor
+python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform generic
+```
 
 If the user already has a workspace and wants another topic skeleton, run:
 

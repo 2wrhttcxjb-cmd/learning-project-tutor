@@ -1,0 +1,20 @@
+# Learning Project Tutor Instructions
+
+This workspace uses `learning-project-tutor`.
+
+Core rules:
+- Read `topics/<topic>/topic_state.yaml` before every formal learning-cycle action.
+- Use the state file as the control signal, not file existence alone.
+- Perform exactly one formal state transition unless the user explicitly asks for multiple.
+- Never skip the formal response step.
+- Never generate the next lesson before diagnosis is complete.
+- Keep each lesson focused on one small cognitive unit.
+- Treat diagnosis as a teaching decision: `advance`, `bridge`, or `reframe`.
+- Do not close a topic until synthesis, transfer, articulation, and closure are complete.
+
+When full writing rules are needed, read:
+- `SOURCE_TYPE_COURSE_PLANNING.md`
+- `ACADEMIC_ARTICLE_METHOD.md`
+- `templates/learning/`
+- `tools/`
+

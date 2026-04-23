@@ -9,6 +9,7 @@
 
 ## Included
 - `AGENTS.md`
+- `adapters/`
 - `SOURCE_TYPE_COURSE_PLANNING.md`
 - `ACADEMIC_ARTICLE_METHOD.md`
 - `templates/learning/`
@@ -22,6 +23,16 @@
 2. 把 `topics/example-topic/` 复制或重命名成真实 topic 名
 3. 在 `00-source.md` 里放入学习材料
 4. 让 Codex 执行当前 topic 的 learning cycle
+
+如果要生成其他平台的工作区，可以从安装后的 skill 运行 scaffold：
+
+`python3 scripts/scaffold_learning_workspace.py <workspace-path> --topic <topic-name> --platform claude-code`
+
+可选平台：
+- `codex`：生成 `AGENTS.md`
+- `claude-code`：生成 `CLAUDE.md`
+- `cursor`：生成 `.cursor/rules/learning-project-tutor.mdc`
+- `generic`：生成 `PROJECT_INSTRUCTIONS.md`
 
 如果想直接从已带的 demo source 起步，可以先看：
 - `topics/demo-proxy-metrics/00-source.md`

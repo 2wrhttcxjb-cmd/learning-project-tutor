@@ -100,10 +100,13 @@ README = """# Learning Project Starter Workspace
 
 这是由 `learning-project-tutor` skill 生成的最小学习工程。
 
+## Platform
+Generated for: `{platform}`
+
 ## How to use
 1. 把学习材料放到 `topics/<topic>/00-source.md`
 2. 确认 `topics/<topic>/topic_state.yaml` 的状态
-3. 让 Codex 运行当前 topic 的下一步
+3. 让你的 agent 运行当前 topic 的下一步
 
 ## Common prompts
 - `run learning cycle for topic <topic-name>`
@@ -120,6 +123,13 @@ README = """# Learning Project Starter Workspace
 - 一个示例 topic 骨架
 - 一个可直接试跑的 demo topic
 """
+
+PLATFORM_RULE_TARGETS = {
+    "codex": "AGENTS.md",
+    "claude-code": "CLAUDE.md",
+    "cursor": ".cursor/rules/learning-project-tutor.mdc",
+    "generic": "PROJECT_INSTRUCTIONS.md",
+}
 
 DEMO_README = """# Demo Topic
 
@@ -164,6 +174,26 @@ def copy_tree_contents(src: Path, dst: Path) -> None:
             shutil.copy2(item, target)
 
 
+def resolve_bundle_paths(script_path: Path) -> dict[str, Path]:
+    bundle_root = script_path.resolve().parent.parent
+    references = bundle_root / "references"
+    scripts = bundle_root / "scripts"
+    adapters = bundle_root / "adapters"
+
+    if not references.exists():
+        references = bundle_root
+    if not scripts.exists():
+        scripts = bundle_root / "tools"
+
+    return {
+        "root": bundle_root,
+        "references": references,
+        "scripts": scripts,
+        "templates": bundle_root / "templates" / "learning",
+        "adapters": adapters,
+    }
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Scaffold a starter learning workspace from the learning-project-tutor skill."
@@ -174,27 +204,49 @@ def parse_args() -> argparse.Namespace:
         default="example-topic",
         help="Initial topic directory name to create inside topics/",
     )
+    parser.add_argument(
+        "--platform",
+        choices=sorted(PLATFORM_RULE_TARGETS),
+        default="codex",
+        help="Agent platform rule file to generate.",
+    )
     return parser.parse_args()
+
+
+def copy_platform_rules(adapters_root: Path, references_root: Path, target: Path, platform: str) -> None:
+    adapter_dir = adapters_root / platform
+    rule_files = list(adapter_dir.glob("*.template"))
+    if rule_files:
+        template = rule_files[0].read_text(encoding="utf-8")
+    elif platform == "codex" and (references_root / "AGENTS.md").exists():
+        template = (references_root / "AGENTS.md").read_text(encoding="utf-8")
+    else:
+        raise SystemExit(f"missing adapter template for platform: {platform}")
+
+    target_rule = target / PLATFORM_RULE_TARGETS[platform]
+    write_text(target_rule, template)
 
 
 def main() -> int:
     args = parse_args()
-    skill_root = Path(__file__).resolve().parent.parent
+    bundle_paths = resolve_bundle_paths(Path(__file__))
     target = Path(args.target).expanduser().resolve()
     topic = args.topic.strip()
     if not topic:
         raise SystemExit("topic must not be empty")
 
     target.mkdir(parents=True, exist_ok=True)
-    write_text(target / "README.md", README)
+    write_text(target / "README.md", README.format(platform=args.platform))
 
-    references = skill_root / "references"
-    shutil.copy2(references / "AGENTS.md", target / "AGENTS.md")
+    references = bundle_paths["references"]
+    copy_platform_rules(bundle_paths["adapters"], references, target, args.platform)
     shutil.copy2(references / "SOURCE_TYPE_COURSE_PLANNING.md", target / "SOURCE_TYPE_COURSE_PLANNING.md")
     shutil.copy2(references / "ACADEMIC_ARTICLE_METHOD.md", target / "ACADEMIC_ARTICLE_METHOD.md")
 
-    copy_tree_contents(skill_root / "templates" / "learning", target / "templates" / "learning")
-    copy_tree_contents(skill_root / "scripts", target / "tools")
+    copy_tree_contents(bundle_paths["templates"], target / "templates" / "learning")
+    copy_tree_contents(bundle_paths["scripts"], target / "tools")
+    if bundle_paths["adapters"].exists():
+        copy_tree_contents(bundle_paths["adapters"], target / "adapters")
 
     write_text(target / "memory" / "memory_state.yaml", MEMORY_STATE)
     write_text(target / "memory" / "nodes.yaml", NODES_YAML)

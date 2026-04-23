@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 - 2026-04-23
+- added platform adapters for Codex, Claude Code, Cursor, and generic agents
+- added `--platform` support to workspace scaffolding
+- updated install docs for multi-platform workspace generation
+
 ## 0.1.1 - 2026-04-23
 - added `agents/openai.yaml` for the packaged skill
 - added `scaffold_learning_workspace.py` for workspace bootstrapping

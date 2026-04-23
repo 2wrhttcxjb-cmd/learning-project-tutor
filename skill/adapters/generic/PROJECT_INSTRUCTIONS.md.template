@@ -1,0 +1,19 @@
+# Learning Project Tutor Instructions
+
+This is a platform-neutral learning workspace.
+
+Use this contract with any coding or writing agent:
+
+1. Read `topics/<topic>/topic_state.yaml`.
+2. Validate the files required by the current status.
+3. Perform exactly one formal state transition unless explicitly asked to do more.
+4. Never skip user response states.
+5. Never generate a next lesson before diagnosis.
+6. Keep each lesson focused on one small cognitive unit.
+7. End lessons with diagnostic questions.
+8. Use diagnosis to decide `advance`, `bridge`, or `reframe`.
+9. Run final synthesis, transfer, articulation, and closure before marking a topic complete.
+
+The reusable templates live in `templates/learning/`.
+Helper scripts live in `tools/`.
+

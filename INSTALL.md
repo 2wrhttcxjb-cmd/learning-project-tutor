@@ -17,8 +17,25 @@ cp -R skill/* ~/.codex/skills/learning-project-tutor/
 ## Create a new workspace
 
 ```bash
-python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic
+python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform codex
 ```
+
+## Platform adapters
+
+The scaffold script can generate platform-specific instruction files:
+
+```bash
+python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform codex
+python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform claude-code
+python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform cursor
+python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform generic
+```
+
+Generated rule files:
+- `codex` -> `AGENTS.md`
+- `claude-code` -> `CLAUDE.md`
+- `cursor` -> `.cursor/rules/learning-project-tutor.mdc`
+- `generic` -> `PROJECT_INSTRUCTIONS.md`
 
 ## Start from the demo workspace directly
 

@@ -1,0 +1,20 @@
+# Learning Project Tutor Instructions
+
+Use this repository as a state-driven learning workspace.
+
+Workflow contract:
+- Always read `topics/<topic>/topic_state.yaml` first.
+- Let the state file decide the next action.
+- Do one formal state transition per run unless the user explicitly asks for more.
+- Do not skip response files.
+- Do not create the next lesson before writing diagnosis.
+- Each lesson should teach one small cognitive unit and end with diagnostic questions.
+- Diagnosis must decide whether to `advance`, create a `bridge`, or `reframe`.
+- Final completion requires synthesis, transfer, articulation, and closure.
+
+Important files:
+- `SOURCE_TYPE_COURSE_PLANNING.md`
+- `ACADEMIC_ARTICLE_METHOD.md`
+- `templates/learning/`
+- `tools/`
+

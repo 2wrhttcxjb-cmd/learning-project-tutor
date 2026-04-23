@@ -1,0 +1,24 @@
+---
+description: Learning Project Tutor state machine rules
+globs:
+  - "topics/**"
+  - "templates/learning/**"
+  - "tools/**"
+alwaysApply: true
+---
+
+# Learning Project Tutor Instructions
+
+Use `topics/<topic>/topic_state.yaml` as the source of truth for learning-cycle work.
+
+Rules:
+- Read the topic state before acting.
+- Perform one formal state transition at a time unless explicitly asked otherwise.
+- Never skip formal response files.
+- Never generate a next lesson before diagnosis.
+- Keep lessons small and diagnostic.
+- Diagnosis must decide `advance`, `bridge`, or `reframe`.
+- Topic closure requires final synthesis, transfer, articulation, and closure.
+
+For complete planning and writing constraints, read the workspace rule files and templates.
+
