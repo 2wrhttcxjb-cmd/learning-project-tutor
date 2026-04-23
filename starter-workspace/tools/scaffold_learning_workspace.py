@@ -98,30 +98,32 @@ RECON_HISTORY = """# Reconsolidation History
 
 README = """# Learning Project Starter Workspace
 
-这是由 `learning-project-tutor` skill 生成的最小学习工程。
+This workspace is for source-based 1:1 tutoring.
+
+It stores source material, course maps, lessons, learner responses, diagnoses, optional bridge or reframe lessons, QA logs, memory files, and final transfer tasks.
 
 ## Platform
 Generated for: `{platform}`
 
-## How to use
-1. 把学习材料放到 `topics/<topic>/00-source.md`
-2. 确认 `topics/<topic>/topic_state.yaml` 的状态
-3. 让你的 agent 运行当前 topic 的下一步
+## Start A Topic
+1. Put source material in `topics/<topic>/00-source.md`.
+2. Ask your agent to run the learning cycle for that topic.
+3. When a response file is requested, write the learner response before continuing.
 
 ## Common prompts
 - `run learning cycle for topic <topic-name>`
 - `check learning state for topic <topic-name>`
 - `explain lesson 里的某个句子或 figure`
 
-## What is already included
-- `AGENTS.md`
+## Contents
+- platform rule file
 - `SOURCE_TYPE_COURSE_PLANNING.md`
 - `ACADEMIC_ARTICLE_METHOD.md`
 - `templates/learning/`
 - `tools/`
 - `memory/`
-- 一个示例 topic 骨架
-- 一个可直接试跑的 demo topic
+- example topic skeleton
+- demo topic
 """
 
 PLATFORM_RULE_TARGETS = {
@@ -133,10 +135,13 @@ PLATFORM_RULE_TARGETS = {
 
 DEMO_README = """# Demo Topic
 
-这个 demo topic 用来展示：
-- `00-source.md` 可以怎么写
-- 一个短 source 如何进入 `drafting_map`
-- 第一次跑 learning cycle 时，Codex 会如何先生成 course map
+This demo topic contains a short source about proxy metrics and real outcomes.
+
+Start with:
+
+```text
+run learning cycle for topic demo-proxy-metrics
+```
 """
 
 DEMO_SOURCE = """# Source

@@ -1,85 +1,84 @@
 # Learning Project Tutor
 
-A state-driven 1:1 tutoring system that turns source material into adaptive lessons, response tasks, diagnoses, and final transfer exercises. It adjusts the course path and difficulty based on the learner's demonstrated understanding, inserting bridge or reframe lessons when needed instead of following a fixed syllabus.
+Learning Project Tutor is a distributable agent skill and starter workspace for source-based 1:1 tutoring.
 
-一个可分发的学习工作流仓库，包含两部分：
+It maintains a topic workspace with source material, course maps, lessons, learner responses, diagnoses, optional bridge or reframe lessons, QA logs, memory files, and final transfer tasks. The teaching path is controlled by the learner's demonstrated understanding rather than by a fixed syllabus.
 
-- `skill/`: 可安装到 Codex skills 目录的 `learning-project-tutor` skill，也包含多平台 workspace adapter
-- `starter-workspace/`: 可直接复制给别人的最小学习工程模板
+## Repository Contents
 
-## What this repo is for
-- 把 source 驱动的 lesson -> response -> diagnosis 工作流打包成可复用 skill
-- 给新用户一份开箱即用的 starter workspace
-- 支持后续做 zip release 或单独拆成两个交付包
-- 支持为 Codex、Claude Code、Cursor 和通用 agent 生成对应规则文件
+- `skill/`: installable agent skill with `SKILL.md`, platform adapters, templates, scripts, and reference rules.
+- `starter-workspace/`: copyable workspace template with topic skeletons, memory files, helper tools, and a demo topic.
+- `scripts/release.sh`: release archive builder.
+- `VERSION`: current package version.
+- `CHANGELOG.md`: version history.
 
-## Repo layout
-- `skill/`
-  Skill 本体，包含 `SKILL.md`、`agents/openai.yaml`、脚本、模板、参考规则和 `adapters/`
-- `skill/adapters/`
-  平台规则模板，目前支持 `codex`、`claude-code`、`cursor`、`generic`
-- `starter-workspace/`
-  展开后的工作区模板，包含 `AGENTS.md`、`templates/learning/`、`tools/`、`memory/` 和 demo topics
-- `scripts/release.sh`
-  仓库级发布脚本，会同时打出 skill zip 和 starter workspace zip
-- `VERSION`
-  当前发布版本
-- `CHANGELOG.md`
-  版本变更记录
+## Workspace Model
+
+Each topic contains:
+- `00-source.md`: source material
+- `00-course-map.md`: source-aware course plan
+- `topic_state.yaml`: state control file
+- `lessons/`: generated lessons
+- `responses/`: learner responses
+- `diagnosis/`: teaching diagnoses
+- `final/`: synthesis, transfer, articulation, and closure files
+- `memory/`: topic-level memory context
+- `qa/`: lesson QA log when needed
+
+Supported platform adapters:
+- `codex`: `AGENTS.md`
+- `claude-code`: `CLAUDE.md`
+- `cursor`: `.cursor/rules/learning-project-tutor.mdc`
+- `generic`: `PROJECT_INSTRUCTIONS.md`
 
 ## Install
 
-### Option 1: install the skill
-把 `skill/` 目录复制到：
+Install the skill into Codex:
 
 ```bash
-~/.codex/skills/learning-project-tutor/
+mkdir -p ~/.codex/skills/learning-project-tutor
+cp -R skill/* ~/.codex/skills/learning-project-tutor/
 ```
 
-然后初始化一个工作区：
+Create a learning workspace:
 
 ```bash
 python3 ~/.codex/skills/learning-project-tutor/scripts/scaffold_learning_workspace.py ~/learning-project --topic my-first-topic --platform codex
 ```
 
-可选平台：
-- `codex`: 生成 `AGENTS.md`
-- `claude-code`: 生成 `CLAUDE.md`
-- `cursor`: 生成 `.cursor/rules/learning-project-tutor.mdc`
-- `generic`: 生成 `PROJECT_INSTRUCTIONS.md`
+Use `--platform claude-code`, `--platform cursor`, or `--platform generic` for other rule-file formats.
 
-### Option 2: copy the starter workspace
-直接复制 `starter-workspace/` 到目标目录，然后开始填 `topics/<topic>/00-source.md`。
+## Common Tasks
 
-## Common commands
+Create a workspace from this repo:
 
-### Create a fresh workspace from the skill
 ```bash
 python3 skill/scripts/scaffold_learning_workspace.py /path/to/workspace --topic my-topic --platform codex
 ```
 
-### Add a new topic inside an existing workspace
+Add a topic to an existing workspace:
+
 ```bash
 python3 starter-workspace/tools/create_topic_from_template.py /path/to/workspace causal-inference-basics
 ```
 
-### Build release archives
+Build release archives:
+
 ```bash
 bash scripts/release.sh dist
 ```
 
-## Release artifacts
-发布脚本默认产出两份 zip：
+Release artifacts:
 - `learning-project-tutor-<version>.zip`
 - `learning-project-starter-workspace-<version>.zip`
 
-## Suggested first-run demo
-如果想快速看这套 workflow 怎么工作，先打开：
+## Demo
 
+Open the demo source:
 - `starter-workspace/topics/demo-proxy-metrics/00-source.md`
 - `starter-workspace/topics/demo-proxy-metrics/README.md`
 
-然后运行：
+Then ask your agent:
 
 ```text
 run learning cycle for topic demo-proxy-metrics

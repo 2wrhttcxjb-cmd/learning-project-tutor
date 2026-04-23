@@ -1,15 +1,13 @@
 # Learning Project Starter Workspace
 
-这个目录是展开后的 starter workspace。
+This is a starter workspace for source-based 1:1 tutoring.
 
-它不是 skill 本体，而是一份可以直接复制给别人使用的最小学习工程。更适合下面两种场景：
+It stores source material, generated lessons, learner responses, diagnoses, optional bridge or reframe lessons, QA logs, memory files, and final transfer tasks inside topic folders.
 
-1. 你想让别人直接解压后开始填 source
-2. 你想把一套默认目录和初始文件一起交付
+## Contents
 
-## Included
-- `AGENTS.md`
-- `adapters/`
+- `AGENTS.md`: Codex rule file
+- `adapters/`: rule templates for other platforms
 - `SOURCE_TYPE_COURSE_PLANNING.md`
 - `ACADEMIC_ARTICLE_METHOD.md`
 - `templates/learning/`
@@ -18,49 +16,66 @@
 - `topics/example-topic/`
 - `topics/demo-proxy-metrics/`
 
-## Suggested usage
-1. 复制整个目录到对方自己的 Obsidian vault 或工作目录
-2. 把 `topics/example-topic/` 复制或重命名成真实 topic 名
-3. 在 `00-source.md` 里放入学习材料
-4. 让 Codex 执行当前 topic 的 learning cycle
+## Topic Structure
 
-如果要生成其他平台的工作区，可以从安装后的 skill 运行 scaffold：
-
-`python3 scripts/scaffold_learning_workspace.py <workspace-path> --topic <topic-name> --platform claude-code`
-
-可选平台：
-- `codex`：生成 `AGENTS.md`
-- `claude-code`：生成 `CLAUDE.md`
-- `cursor`：生成 `.cursor/rules/learning-project-tutor.mdc`
-- `generic`：生成 `PROJECT_INSTRUCTIONS.md`
-
-如果想直接从已带的 demo source 起步，可以先看：
-- `topics/demo-proxy-metrics/00-source.md`
-- `topics/demo-proxy-metrics/README.md`
-
-## Starter topic convention
-推荐新 topic 用短横线命名，例如：
-- `deep-learning-recsys`
-- `market-maps-ai-agents`
-- `roman-empire-collapse`
-
-每个新 topic 至少保留这些文件：
+Each topic contains:
 - `00-source.md`
 - `00-course-map.md`
 - `topic_state.yaml`
-- `memory/topic-memory.yaml`
-- `memory/current-context.md`
-- `memory/reconsolidation-history.md`
+- `lessons/`
+- `responses/`
+- `diagnosis/`
+- `final/`
+- `memory/`
 
-也可以直接运行：
+## Start A Topic
 
-`python3 tools/create_topic_from_template.py <workspace-path> <topic-name>`
+1. Copy or rename `topics/example-topic/`.
+2. Put source material in `00-source.md`.
+3. Ask your agent:
 
-例如：
+```text
+run learning cycle for topic <topic-name>
+```
 
-`python3 tools/create_topic_from_template.py . causal-inference-basics`
+When the agent asks for a response, write your answer in the indicated response file before continuing.
 
-## Common prompts
-- `run learning cycle for topic <topic-name>`
-- `check learning state for topic <topic-name>`
-- `answer a QA question for topic <topic-name>`
+## Other Platforms
+
+This starter workspace defaults to Codex through `AGENTS.md`.
+
+To generate another platform's rule file from the installed skill:
+
+```bash
+python3 scripts/scaffold_learning_workspace.py <workspace-path> --topic <topic-name> --platform claude-code
+```
+
+Adapters:
+- `codex`: `AGENTS.md`
+- `claude-code`: `CLAUDE.md`
+- `cursor`: `.cursor/rules/learning-project-tutor.mdc`
+- `generic`: `PROJECT_INSTRUCTIONS.md`
+
+## Try The Demo
+
+Open:
+- `topics/demo-proxy-metrics/00-source.md`
+- `topics/demo-proxy-metrics/README.md`
+
+Then ask:
+
+```text
+run learning cycle for topic demo-proxy-metrics
+```
+
+## Add Topics Later
+
+```bash
+python3 tools/create_topic_from_template.py <workspace-path> <topic-name>
+```
+
+Example:
+
+```bash
+python3 tools/create_topic_from_template.py . causal-inference-basics
+```

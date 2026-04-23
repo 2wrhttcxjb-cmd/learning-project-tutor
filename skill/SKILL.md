@@ -1,37 +1,45 @@
 ---
 name: learning-project-tutor
-description: Use when the user wants to turn source material into a state-driven learning project with lessons, response files, diagnoses, bridge or reframe lessons, and final synthesis or transfer tasks. Good for Obsidian-based study workflows, source-driven self-learning, and reusable teaching loops that diagnose understanding before advancing.
+description: Use when the user wants adaptive 1v1 tutoring from source material: focused lessons, learner response files, diagnosis-driven course adjustment, bridge or reframe lessons, and final transfer checks. Especially useful when the next lesson should depend on demonstrated understanding rather than a fixed syllabus.
 ---
 
 # Learning Project Tutor
 
-## Purpose
-Run a reusable learning workflow that teaches from source material in small lessons, waits for a formal user response, diagnoses understanding, and only then decides whether to advance, bridge, or reframe.
+## Role
 
-This skill is the distributable entrypoint for the learning project. It should be installed as one skill folder and used to create or maintain a workspace that follows the same state-driven structure.
+Maintain a source-based 1v1 tutoring workspace. The workspace stores source material, course maps, lessons, learner responses, diagnoses, optional bridge or reframe lessons, QA logs, memory files, and final transfer tasks.
+
+The teaching path depends on evidence from the learner's formal responses.
 
 ## Use This Skill When
-- the user wants to learn from an article, paper, talk transcript, report, or book chapter
-- the user wants lesson -> response -> diagnosis instead of one-shot summaries
-- the user wants the next lesson to depend on demonstrated understanding
-- the user wants a reusable learning workspace they can keep running across topics
 
-## Core Teaching Contract
-1. Always read the current topic state first.
-2. Use `topic_state.yaml` as the control signal.
-3. Perform exactly one formal state transition per learning-cycle run unless the user explicitly asks for more.
-4. Never skip the formal response step.
-5. Never generate the next lesson before a diagnosis is completed.
-6. Keep each lesson focused on one small cognitive unit.
-7. Questions must diagnose understanding, not just recall.
-8. Diagnosis is a teaching decision, not a summary.
+- The user wants to learn from an article, paper, talk transcript, report, book chapter, or source bundle.
+- The user wants a tutor that adapts to their understanding.
+- The user wants source-aware lessons, not one-shot summaries.
+- The user wants persistent topic files for lessons, responses, diagnosis, QA, memory, and final transfer.
+- The user wants to scaffold or maintain a reusable learning workspace.
+
+## Teaching Contract
+
+The learner's formal response is the main evidence. Use it to decide whether to advance, bridge, or reframe.
+
+Non-negotiables:
+- Always read `topics/<topic>/topic_state.yaml` before formal learning-cycle work.
+- Use `topic_state.yaml` as the control signal, not file existence alone.
+- Perform exactly one formal state transition unless the user explicitly asks for multiple.
+- Never skip the learner response step.
+- Never generate the next lesson before diagnosis.
+- Keep each lesson focused on one small cognitive unit.
+- Make questions diagnose understanding, not recall.
+- Treat diagnosis as a teaching decision, not a summary.
 
 ## Workspace Shape
-When the user asks to set up a new learning workspace, create or maintain this structure:
 
-- `AGENTS.md`
-- or a platform-specific rule file such as `CLAUDE.md`, `.cursor/rules/learning-project-tutor.mdc`, or `PROJECT_INSTRUCTIONS.md`
+When the user asks to create a learning workspace, create or maintain:
+
+- a platform rule file: `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/learning-project-tutor.mdc`, or `PROJECT_INSTRUCTIONS.md`
 - `SOURCE_TYPE_COURSE_PLANNING.md`
+- `ACADEMIC_ARTICLE_METHOD.md`
 - `memory/`
 - `templates/learning/`
 - `tools/`
@@ -45,88 +53,74 @@ When the user asks to set up a new learning workspace, create or maintain this s
 - `topics/<topic>/memory/`
 - `topics/<topic>/qa/` when lesson QA first appears
 
-For a concrete layout and file intent, read [references/workspace-layout.md](references/workspace-layout.md).
+For file intent and layout details, read `references/workspace-layout.md`.
 
-## Default Learning Cycle
-For a topic that already has source material:
+## Learning Cycle
 
-1. Read the platform rule file for the workspace, such as `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/learning-project-tutor.mdc`, or `PROJECT_INSTRUCTIONS.md`.
+For an existing topic:
+
+1. Read the platform rule file for the workspace.
 2. Read `topics/<topic>/topic_state.yaml`.
-3. Validate that the files required by the current status exist.
-4. Do the one next action allowed by that status.
+3. Validate the files required by the current status.
+4. Perform the one next action allowed by the status.
 5. Update `topic_state.yaml`.
 
-## Expected Status Flow
-- `drafting_map`
-- `ready_for_lesson`
-- `waiting_user_response`
-- `ready_for_diagnosis`
-- `ready_for_next_action`
-- `final_synthesis_ready`
-- `final_transfer_ready`
-- `waiting_transfer_response`
-- `ready_for_transfer_diagnosis`
-- `final_articulation_ready`
-- `waiting_articulation_response`
-- `ready_for_closure`
-- `closed`
+Important statuses:
+- `drafting_map`: create a source-aware course map
+- `ready_for_lesson`: create the next focused lesson and response file
+- `waiting_user_response`: stop unless the expected response is non-empty
+- `ready_for_diagnosis`: diagnose the response and decide the next teaching move
+- `ready_for_next_action`: advance, bridge, reframe, or enter final phase
+- final statuses: synthesis, transfer, articulation, closure
 
-## Lesson Rules
-- Explain why first, then what.
-- Keep terminology lightweight and local to the lesson.
-- Add a minimal term note when technical vocabulary is necessary.
-- Do not pack multiple parallel mini-topics into one lesson.
-- End every lesson with diagnostic questions sized to the lesson's true complexity.
+## Lesson Quality
 
-## Diagnosis Rules
+Each lesson should:
+- answer one core question
+- explain why before what
+- use only necessary terminology
+- avoid parallel mini-topics
+- end with diagnostic questions sized to the lesson's complexity
+
+Questions should cover at least three dimensions when possible:
+- restatement
+- causality
+- distinction
+- transfer
+- boundary or counterexample
+
+## Diagnosis Quality
+
 Every diagnosis must judge:
-- whether the user understood the core claim
-- whether the user understood the key causal link
-- whether the user showed at least minimal transfer ability
+- whether the learner understood the core claim
+- whether they understood the key causal link
+- whether they showed basic transfer ability
 - what kind of misunderstanding is present
 - whether the next move should be `advance`, `bridge`, or `reframe`
 
-Formal response is the primary evidence. QA logs can help interpret the response but cannot replace it.
+Formal response is primary evidence. QA logs can clarify the response but cannot replace it.
 
-## Final Phase Rules
-Do not treat topic completion as "lesson path finished". A topic is only done after:
-- synthesis
-- transfer
-- articulation
-- closure
+## Final Phase
 
-If transfer fails, reopen the loop with a bridge lesson instead of closing the topic.
+Do not treat a topic as complete when the planned lessons are done.
 
-## Packaging Guidance
-When adapting this skill for another user or vault:
-- keep the skill folder self-contained
-- avoid hardcoding your personal vault paths
-- keep reusable logic in this skill, not in topic output files
-- ship templates and scripts only if they are broadly reusable
-- do not ship your private topics, responses, or memory history unless the user explicitly wants examples
+A topic closes only after:
+- synthesis captures the topic's minimal mental model
+- transfer tests use in new domains
+- articulation tests explanation quality
+- closure records what was internalized and what connects forward
 
-## Bundled Assets
-- reusable templates live in `templates/learning/`
-- reusable helper scripts live in `scripts/`
-- stable workflow references live in `references/`
-- platform adapter templates live in `adapters/`
-- UI metadata lives in `agents/openai.yaml`
+If transfer fails, reopen the topic with a bridge lesson.
 
-Read these short references first:
-- `references/teaching-contract.md`
-- `references/state-machine.md`
+## Commands
 
-Only read the full generated-workspace `AGENTS.md` when you need the complete lesson-writing and diagnosis constraints.
-
-If the user wants a fresh workspace, run:
+Create a fresh workspace:
 
 ```bash
-python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic
+python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform codex
 ```
 
-That scaffold creates the root learning workspace, memory baselines, one example topic, and copies the reusable templates and helper scripts into the target directory.
-
-To generate platform-specific agent rules, pass `--platform`:
+Supported platforms:
 
 ```bash
 python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform codex
@@ -135,36 +129,24 @@ python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my
 python3 scripts/scaffold_learning_workspace.py /target/workspace/path --topic my-first-topic --platform generic
 ```
 
-If the user already has a workspace and wants another topic skeleton, run:
+Add a topic to an existing workspace:
 
 ```bash
 python3 scripts/create_topic_from_template.py /existing/workspace my-next-topic
 ```
 
-To copy from the packaged demo topic shape instead:
-
-```bash
-python3 scripts/create_topic_from_template.py /existing/workspace my-next-topic --from-demo
-```
-
-If the user wants release archives for sharing, run:
+Build release archives:
 
 ```bash
 bash scripts/package_learning_project.sh /target/output-dir 0.1.0
 ```
 
-This creates one zip for the skill and one zip for the starter workspace.
+## Distribution Boundary
 
-## Recommended Distribution Boundary
-Package these as reusable assets:
-- workflow rules
-- state machine rules
-- lesson and diagnosis design rules
-- template files
-- helper scripts that validate QA, build quote indexes, or preflight state
+Package reusable teaching rules, templates, scripts, and adapters.
 
-Do not package these as defaults:
-- your existing topic data
-- personal memory graph history
-- user-specific notes
+Do not package:
+- private topic data
+- learner responses
+- personal memory history
 - one-off debugging artifacts

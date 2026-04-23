@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-04-23
+- revised public documentation to describe the current package structure and workspace model
+- aligned skill, starter workspace, scaffolded README, demo README, and adapter wording
+- kept implementation and teaching behavior unchanged
+
 ## 0.2.0 - 2026-04-23
 - added platform adapters for Codex, Claude Code, Cursor, and generic agents
 - added `--platform` support to workspace scaffolding

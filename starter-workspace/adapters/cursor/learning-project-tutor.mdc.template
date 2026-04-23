@@ -1,5 +1,5 @@
 ---
-description: Learning Project Tutor state machine rules
+description: Source-based 1:1 tutoring workspace rules
 globs:
   - "topics/**"
   - "templates/learning/**"
@@ -7,9 +7,9 @@ globs:
 alwaysApply: true
 ---
 
-# Learning Project Tutor Instructions
+# Learning Project Tutor
 
-Use `topics/<topic>/topic_state.yaml` as the source of truth for learning-cycle work.
+Use this repository as a source-based 1:1 tutoring workspace.
 
 Rules:
 - Read the topic state before acting.
@@ -21,4 +21,3 @@ Rules:
 - Topic closure requires final synthesis, transfer, articulation, and closure.
 
 For complete planning and writing constraints, read the workspace rule files and templates.
-

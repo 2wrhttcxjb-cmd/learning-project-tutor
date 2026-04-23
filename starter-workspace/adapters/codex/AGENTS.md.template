@@ -1,6 +1,6 @@
-# Learning Project Tutor Instructions
+# Learning Project Tutor
 
-This workspace uses `learning-project-tutor`.
+This workspace is for source-based 1:1 tutoring.
 
 Core rules:
 - Read `topics/<topic>/topic_state.yaml` before every formal learning-cycle action.
@@ -17,4 +17,3 @@ When full writing rules are needed, read:
 - `ACADEMIC_ARTICLE_METHOD.md`
 - `templates/learning/`
 - `tools/`
-

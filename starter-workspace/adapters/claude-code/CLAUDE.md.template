@@ -1,8 +1,8 @@
-# Learning Project Tutor Instructions
+# Learning Project Tutor
 
-Use this repository as a state-driven learning workspace.
+Use this repository as a source-based 1:1 tutoring workspace.
 
-Workflow contract:
+Teaching contract:
 - Always read `topics/<topic>/topic_state.yaml` first.
 - Let the state file decide the next action.
 - Do one formal state transition per run unless the user explicitly asks for more.
@@ -17,4 +17,3 @@ Important files:
 - `ACADEMIC_ARTICLE_METHOD.md`
 - `templates/learning/`
 - `tools/`
-

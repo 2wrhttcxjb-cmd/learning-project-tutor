@@ -1,6 +1,6 @@
-# Learning Project Tutor Instructions
+# Learning Project Tutor
 
-This is a platform-neutral learning workspace.
+This is a platform-neutral source-based 1:1 tutoring workspace.
 
 Use this contract with any coding or writing agent:
 
@@ -16,4 +16,3 @@ Use this contract with any coding or writing agent:
 
 The reusable templates live in `templates/learning/`.
 Helper scripts live in `tools/`.
-
